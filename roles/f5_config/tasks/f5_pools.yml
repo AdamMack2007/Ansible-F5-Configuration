@@ -1,0 +1,25 @@
+- name: Configure F5 Pools
+  bigip_pool:
+    aggregate: 
+      - name: "{{ item.name }}"
+        description: "{{ item.description }}"
+        lb_method: "{{ item.lb_method }}"
+        monitors: "{{ item.monitors }}"
+    provider: "{{ provider }}"
+  delegate_to: localhost
+  loop: "{{ pools }}"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Configure F5 Pool Members
+  bigip_pool_member:
+    pool: "{{ item.name }}"
+    aggregate: "{{ item.members }}"
+    provider: "{{ provider }}"
+    replace_all_with: yes
+  delegate_to: localhost
+  loop: "{{ pools }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: 
+    - pools is defined

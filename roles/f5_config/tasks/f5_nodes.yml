@@ -1,0 +1,11 @@
+- name: Configure F5 Nodes
+  bigip_node:
+    host: "{{ item.host }}"
+    name: "{{ item.name }}"
+    state: "{{ item.state | default('present') }}"
+    provider: "{{ provider }}"
+  delegate_to: localhost
+  loop: "{{ nodes }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: nodes is defined

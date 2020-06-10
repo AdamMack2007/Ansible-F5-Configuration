@@ -1,0 +1,7 @@
+ansible_network_os: f5
+
+provider:
+  server: "{{ ansible_host }}"
+  timeout: 30
+  server_port: 443
+  validate_certs: no

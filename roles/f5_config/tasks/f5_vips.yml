@@ -1,0 +1,16 @@
+- name: Configure F5 VIPs
+  bigip_virtual_server:
+    state: present
+    name: "{{ item.name }}"
+    destination: "{{ item.destination }}"
+    port: "{{ item.port }}"
+    pool: "{{ item.pool | default('') }}"
+    irules: "{{ item.irules | default('') }}"
+    snat: "{{ item.snat | default('none') }}"
+    description: "{{ item.description | default('') }}"
+    profiles: "{{ item.profiles }}"
+    provider: "{{ provider }}"
+  delegate_to: localhost
+  loop: "{{ vips }}"
+  loop_control:
+    label: "{{ item.name }}"

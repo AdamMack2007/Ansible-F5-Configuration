@@ -1,0 +1,7 @@
+---
+- name: Configure F5 Objects
+  hosts: all
+  gather_facts: no
+
+  roles:
+    - f5_config
