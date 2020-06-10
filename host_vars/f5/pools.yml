@@ -1,0 +1,26 @@
+pools:
+  - name: pool_web
+    description: Web server pool
+    lb_method: round-robin
+    monitors:
+      - http
+    members: 
+      - name: web1
+        host: 192.168.100.101
+        port: 80
+      - name: web2
+        host: 192.168.100.102
+        port: 80
+        
+  - name: pool_db
+    description: Database server pool
+    lb_method: round-robin
+    monitors:
+      - http
+    members: 
+      - name: db1
+        host: 192.168.101.101
+        port: 80
+      - name: db2
+        host: 192.168.101.102
+        port: 80
