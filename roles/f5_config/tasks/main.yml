@@ -1,10 +1,15 @@
 ---
+
 - name: "Configure F5 Nodes"
   include_tasks: "f5_nodes.yml"
   when: ansible_network_os == 'f5'
 
 - name: "Configure F5 Pools"
   include_tasks: "f5_pools.yml"
+  when: ansible_network_os == 'f5'
+
+- name: "Configure F5 iRules"
+  include_tasks: "f5_irules.yml"
   when: ansible_network_os == 'f5'
 
 - name: "Configure F5 VIPs"

@@ -1,0 +1,12 @@
+- name: Configure F5 iRules
+  bigip_irule:
+    content: "{{ item.content }}"
+    module: ltm
+    name: "{{ item.name }}"
+    state: present
+    provider: "{{ provider }}"
+  delegate_to: localhost
+  loop: "{{ irules }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: irules is defined
