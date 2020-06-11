@@ -1,4 +1,29 @@
 ---
+- name: Collect BIG-IP information
+  bigip_device_info:
+    gather_subset:
+       - nodes
+       - irules
+       - ltm-pools
+       - virtual-servers
+    provider: "{{ provider }}"
+  delegate_to: localhost
+  register: f5_info
+
+- name: Set Current Objects as Facts
+  set_fact:
+    current_vips: "{{ f5_info['virtual_servers']| map(attribute='name')|list }}"
+    current_pools: "{{ f5_info['ltm_pools']| map(attribute='name')|list }}"
+    current_irules: "{{ f5_info['irules']| map(attribute='name')|list }}"
+    current_nodes: "{{ f5_info['nodes']| map(attribute='name')|list }}"
+    declared_vips: "{{ vips | map(attribute='name')|list }}" #vips is found in host_vars/{host}/vips.yml
+    declared_pools: "{{ pools | map(attribute='name')|list }}" #pools is found in host_vars/{host}/pools.yml
+    declared_irules: "{{ irules | map(attribute='name')|list }}" #irules is found in host_vars/{host}/irules.yml
+    declared_nodes: "{{ nodes | map(attribute='name')|list }}" #nodes is found in host_vars/{host}/nodes.yml
+
+- name: "Remove non-compliant objects"
+  include_tasks: "f5_cleanup.yml"
+  when: ansible_network_os == 'f5'
 
 - name: "Configure F5 Nodes"
   include_tasks: "f5_nodes.yml"

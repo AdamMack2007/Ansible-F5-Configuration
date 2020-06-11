@@ -11,7 +11,7 @@ vips:
       - tcp
       - http
       
-  - name: VS_DB
+  - name: VS_DB_80
     description: Database VIP
     port: 80
     destination: 192.168.100.2
