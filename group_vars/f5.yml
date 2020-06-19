@@ -3,5 +3,26 @@ ansible_network_os: f5
 provider:
   server: "{{ ansible_host }}"
   timeout: 30
+  user: "{{ ansible_user }}"
+  password: "{{ ansible_password }}"
   server_port: 443
   validate_certs: no
+
+
+#The following are default iRules that cannot be deleted, f5_cleanup.yml will skip these
+default_irules:
+  - "_sys_APM_ExchangeSupport_OA_BasicAuth"
+  - "_sys_APM_ExchangeSupport_OA_NtlmAuth"
+  - "_sys_APM_ExchangeSupport_helper"
+  - "_sys_APM_ExchangeSupport_main"
+  - "_sys_APM_MS_Office_OFBA_Support"
+  - "_sys_APM_Office365_SAML_BasicAuth"
+  - "_sys_APM_activesync"
+  - "_sys_auth_krbdelegate"
+  - "_sys_auth_ldap"
+  - "_sys_auth_radius"
+  - "_sys_auth_ssl_cc_ldap"
+  - "_sys_auth_ssl_crldp"
+  - "_sys_auth_ssl_ocsp"
+  - "_sys_auth_tacacs"
+  - "_sys_https_redirect"

@@ -1,0 +1,45 @@
+- name: Cleanup F5 VIPs
+  bigip_virtual_server:
+    state: absent
+    name: "{{ item }}"
+    provider: "{{ provider }}"
+  delegate_to: localhost
+  loop: "{{ current_vips }}"
+  loop_control:
+    label: "{{ item }}"
+  when: item not in declared_vips
+
+- name: Cleanup F5 Pools
+  bigip_pool:
+    aggregate: 
+      - name: "{{ item }}"
+        state: absent
+    provider: "{{ provider }}"
+  delegate_to: localhost
+  loop: "{{ current_pools }}"
+  loop_control:
+    label: "{{ item }}"
+  when: item not in declared_pools
+
+- name: Cleanup F5 Nodes
+  bigip_node:
+    name: "{{ item }}"
+    state: absent
+    provider: "{{ provider }}"
+  delegate_to: localhost
+  loop: "{{ current_nodes }}"
+  loop_control:
+    label: "{{ item }}"
+  when: item not in declared_nodes
+
+- name: Cleanup F5 iRules
+  bigip_irule:
+    module: ltm
+    name: "{{ item }}"
+    state: absent
+    provider: "{{ provider }}"
+  delegate_to: localhost
+  loop: "{{ current_irules }}"
+  loop_control:
+    label: "{{ item }}"
+  when: item not in declared_irules and (item not in default_irules)

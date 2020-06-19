@@ -10,7 +10,8 @@
   loop: "{{ pools }}"
   loop_control:
     label: "{{ item.name }}"
-
+  when: pools is defined
+  
 - name: Configure F5 Pool Members
   bigip_pool_member:
     pool: "{{ item.name }}"
@@ -21,5 +22,4 @@
   loop: "{{ pools }}"
   loop_control:
     label: "{{ item.name }}"
-  when: 
-    - pools is defined
+  when: pools is defined
